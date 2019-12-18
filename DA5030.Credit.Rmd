@@ -1,0 +1,81 @@
+---
+title: "DA5030.Loan"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Q.1. Build an R Notebook of the bank loan decision tree example in the textbook on pages 136 to 149; the CSV file is available for download below. Show each step and add appropriate documentation. Note that the provided dataset uses values 1 and 2 in default column whereas the book has no and yes in the default column. To fix any problems replace "no" with "1" and "yes" with "2" in the code that for matrix_dimensions. Alternatively, change the line
+error_cost <- matrix(c(0, 1, 4, 0), nrow = 2, dimnames = matrix_dimensions) to error_cost <- matrix(c(0, 1, 4, 0), nrow = 2). 
+
+```{r}
+install.packages("C50", repos = "http://cran.us.r-project.org")
+install.packages("gmodels", repos = "http://cran.us.r-project.org")
+```
+
+```{r}
+#collecting data
+#setwd("C:/Users/omkar/OneDrive/Desktop/R/DA5030.A5")
+credit <- read.csv("credit.csv")
+
+#exploring data
+str(credit)
+table(credit$checking_balance)
+table(credit$savings_balance)
+summary(credit$months_loan_duration)
+summary(credit$amount)
+table(credit$default)
+
+set.seed(123)
+train_sample <- sample(1000, 900)
+str(train_sample)
+
+#splitting data into training and testing dataset
+credit_train <- credit[train_sample, ]
+credit_test  <- credit[-train_sample, ]
+
+prop.table(table(credit_train$default))
+prop.table(table(credit_test$default))
+
+
+library(C50)
+#converting 'default' data from numeric to factor
+credit_train$default <- as.factor(credit_train$default)
+
+#training model on data
+credit_model <- C5.0(credit_train[-17], credit_train$default)
+credit_model
+summary(credit_model)
+
+library(gmodels)
+
+#evaluating model
+credit_pred <- predict(credit_model, credit_test)
+CrossTable(credit_test$default, credit_pred, prop.chisq = FALSE, prop.c = FALSE, prop.r = FALSE,dnn = c('actual default', 'predicted default')) 
+
+#improving model performance by adaptive boosting
+credit_boost10 <- C5.0(credit_train[-17], credit_train$default, trials = 10)
+credit_boost10
+summary(credit_boost10)
+credit_boost_pred10 <- predict(credit_boost10, credit_test) 
+CrossTable(credit_test$default, credit_boost_pred10, prop.chisq = FALSE, prop.c = FALSE, prop.r = FALSE, dnn = c('actual default', 'predicted default')) 
+
+```
+
+```{r}
+
+#assigning penalty to costlier errors
+matrix_dimensions <- list(c("1", "2"), c("1", "2"))
+names(matrix_dimensions) <- c("predicted", "actual")
+matrix_dimensions
+
+error_cost <- matrix(c(0, 1, 4, 0), nrow = 2, dimnames = matrix_dimensions)
+error_cost
+
+credit_cost <- C5.0(credit_train[-17], credit_train$default, costs = error_cost)
+credit_cost_pred <- predict(credit_cost, credit_test)
+CrossTable(credit_test$default, credit_cost_pred, prop.chisq = FALSE, prop.c = FALSE, prop.r = FALSE, 
+           dnn = c('actual default', 'predicted default'))
+```
