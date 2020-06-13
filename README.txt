@@ -5,8 +5,7 @@ Editor: RStudio (v1.2.1335)
 Description:A simple credit approval model using C5.0 Decision Trees depending on various attributes of applicants, followed 
 by model tuning.
 
-NOTE: As part of my graduate program, I created small projects like this to get a better understanding of AI and ML algortihms.
-
+NOTE: 
 Link for Credit dataset: https://drive.google.com/file/d/1E9t8qoNnPFwIEPtviTbHJYmy5hC5yFzS/view?usp=sharing
 Packages: C50, gmodels
 Model: C5.0 Decision Trees
