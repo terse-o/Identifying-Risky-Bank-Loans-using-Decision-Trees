@@ -4,7 +4,7 @@ Language: R
 
 Editor: RStudio (v1.2.1335)
 
-Description:A simple credit approval model using C5.0 Decision Trees depending on various attributes of applicants, followed 
+Description: A simple credit approval model using C5.0 Decision Trees depending on various attributes of applicants, followed 
 by model tuning.
 
 NOTE: 
