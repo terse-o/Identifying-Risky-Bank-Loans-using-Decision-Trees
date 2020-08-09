@@ -1,19 +1,20 @@
-Identifying Risky Bank Loans using Decision Trees
+**Identifying Risky Bank Loans using Decision Trees**
 
-Language: R
+**Language:** R
 
-Editor: RStudio (v1.2.1335)
+**Editor:** RStudio (v1.2.1335)
 
-Description: A simple credit approval model using C5.0 Decision Trees depending on various attributes of applicants, followed 
+**Description:** A simple credit approval model using C5.0 Decision Trees depending on various attributes of applicants, followed 
 by model tuning.
 
-NOTE: 
+**NOTE:**
 Link for Credit dataset: https://drive.google.com/file/d/1E9t8qoNnPFwIEPtviTbHJYmy5hC5yFzS/view?usp=sharing
-Packages: C50, gmodels
 
-Model: C5.0 Decision Trees
+**Packages:** *C50, gmodels*
 
-OVERVIEW:
+**Model:** C5.0 Decision Trees
+
+**OVERVIEW:**
 
 -Collect Data
 
